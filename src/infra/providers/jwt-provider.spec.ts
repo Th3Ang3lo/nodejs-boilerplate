@@ -1,6 +1,5 @@
 import { faker } from '@faker-js/faker'
 
-import { UserTypes } from '@/shared/enum/user-types'
 import { JwtProvider } from '@/infra/providers/jwt-provider'
 
 import { IJwtProvider } from '@/domain/contracts/providers'
@@ -14,8 +13,8 @@ describe('Jwt provider', () => {
     process.env.JWT_SECRET_PARTNERS = faker.word.noun()
     process.env.JWT_EXPIRES = '1d'
 
-    jwtProviderUser = new JwtProvider(UserTypes.USER)
-    jwtProviderPartner = new JwtProvider(UserTypes.PARTNER)
+    jwtProviderUser = new JwtProvider()
+    jwtProviderPartner = new JwtProvider()
   })
 
   it('should generate jwt', async () => {
