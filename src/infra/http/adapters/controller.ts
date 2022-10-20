@@ -1,10 +1,10 @@
-import { RequestHandler, Request, Response } from 'express'
+import { RequestHandler, Response } from 'express'
 
 import { Controller } from '@/domain/contracts/controller'
 
 export type Adapter = (controller: Controller) => RequestHandler
 
-export const controllerAdapter: Adapter = controller => async (request: Request, response: Response): Promise<Response> => {
+export const controllerAdapter: Adapter = controller => async (request: any, response): Promise<Response> => {
   try {
     const dispatchController = await controller.handle(request)
 
