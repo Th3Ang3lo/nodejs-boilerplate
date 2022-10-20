@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "noEmitOnError": true,
     "target": "es2020",
     "rootDirs": ["src"],
     "strictPropertyInitialization": false,
