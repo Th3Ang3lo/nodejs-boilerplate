@@ -1,6 +1,7 @@
 import { RequestHandler, Response } from 'express'
 
 import { Controller } from '@/domain/contracts/controller'
+import { InternalServerErrorException } from '@/shared/exceptions'
 
 export type Adapter = (controller: Controller) => RequestHandler
 
@@ -8,11 +9,18 @@ export const controllerAdapter: Adapter = controller => async (request: any, res
   try {
     const dispatchController = await controller.handle(request)
 
-    const status = Object.keys(dispatchController ?? []).length > 0
-      ? 200
-      : 204
+    const { data, statusCode, redirectTo } = dispatchController
 
-    return response.status(status).send(dispatchController)
+    if (data && statusCode) {
+      return response.status(statusCode).send(data)
+    }
+
+    if (redirectTo) {
+      response.redirect(redirectTo)
+      return
+    }
+
+    throw new InternalServerErrorException()
   } catch (error) {
     if (process.env.NODE_ENV === 'dev') {
       console.log(error)
