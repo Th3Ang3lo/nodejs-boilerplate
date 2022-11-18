@@ -15,6 +15,10 @@ export const controllerAdapter: Adapter = controller => async (request: any, res
       return response.status(statusCode).send(data)
     }
 
+    if (!data && statusCode) {
+      return response.status(204).send()
+    }
+
     if (redirectTo) {
       response.redirect(redirectTo)
       return

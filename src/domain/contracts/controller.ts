@@ -10,7 +10,7 @@ export interface HttpAuth<T = Record<string, any>> { auth?: T }
 
 export type RequestHandler = ExpressRequestHandler
 
-export type Request = Partial<HttpParams & HttpBody & HttpHeaders & HttpQuery & HttpFile & HttpFiles & HttpAuth & HttpAuth>
+export type Request = Partial<HttpParams & HttpBody & HttpHeaders & HttpQuery & HttpFile & HttpFiles & HttpAuth>
 export type Response = Record<string, any>
 
 export interface Controller {

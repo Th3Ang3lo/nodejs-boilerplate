@@ -11,8 +11,8 @@ export function ok (data: Record<string, any>): Record<string, any> {
   return response(data, StatusCode.SuccessOK)
 }
 
-export function okNoContent (data: Record<string, any>): Record<string, any> {
-  return response(data, StatusCode.SuccessNoContent)
+export function okNoContent (): Record<string, any> {
+  return response(null, StatusCode.SuccessNoContent)
 }
 
 export function badRequest (data: Record<string, any>): Record<string, any> {
