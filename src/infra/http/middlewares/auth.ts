@@ -1,8 +1,9 @@
-import { NextFunction, Request, Response } from 'express'
+import { NextFunction, Response } from 'express'
 
 import { JwtProvider } from '@/infra/providers/jwt-provider'
 
 import { UnauthorizedException } from '@/shared/exceptions'
+import { HttpAuth, HttpHeaders } from '@/domain/contracts/controller'
 
 interface ITokenPayload {
   iat: number
@@ -10,7 +11,7 @@ interface ITokenPayload {
   id: string
 }
 
-export const authenticated = async (request: Request, response: Response, next: NextFunction): Promise<void> => {
+export const authenticated = async (request: HttpHeaders & HttpAuth, response: Response, next: NextFunction): Promise<void> => {
   const authHeader = request.headers.authorization
 
   if (authHeader) {
@@ -29,7 +30,7 @@ export const authenticated = async (request: Request, response: Response, next: 
         const decoded = await jwtProvider.decodeToken(token)
         const { id } = decoded as ITokenPayload
 
-        request.user = {
+        request.auth = {
           id
         }
 
