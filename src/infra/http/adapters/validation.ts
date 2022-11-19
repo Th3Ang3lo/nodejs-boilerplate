@@ -1,6 +1,7 @@
-import { Request, Response, NextFunction } from 'express'
-
 import * as yup from 'yup'
+import * as dot from 'dot-object'
+
+import { Request, Response, NextFunction } from 'express'
 
 import { BadRequestException } from '@/shared/exceptions'
 
@@ -21,10 +22,10 @@ export const yupValidationAdapter = async (validation: any, data: any): Promise<
   }
 }
 
-export const expressValidationAdapter = (validation: any, type: ValidationEnum = ValidationEnum.BODY) =>
+export const expressValidationAdapter = (validation: any, type = ValidationEnum.BODY) =>
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      await yupValidationAdapter(validation, request[type])
+      await yupValidationAdapter(validation, dot.pick(type, request))
 
       next()
     } catch (error) {
