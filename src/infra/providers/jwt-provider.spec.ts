@@ -1,43 +1,54 @@
 import { faker } from '@faker-js/faker'
+import { TokenExpiredError } from 'jsonwebtoken'
 
 import { JwtProvider } from '@/infra/providers/jwt-provider'
 
 import { IJwtProvider } from '@/domain/contracts/providers'
 
 describe('Jwt provider', () => {
-  let jwtProviderUser: IJwtProvider
-  let jwtProviderPartner: IJwtProvider
+  let jwtProvider: IJwtProvider
 
   beforeAll(() => {
     process.env.JWT_SECRET_USERS = faker.word.noun()
     process.env.JWT_SECRET_PARTNERS = faker.word.noun()
     process.env.JWT_EXPIRES = '1d'
 
-    jwtProviderUser = new JwtProvider()
-    jwtProviderPartner = new JwtProvider()
+    jwtProvider = new JwtProvider()
   })
 
   it('should generate jwt', async () => {
-    const tokenUser = await jwtProviderUser.generateToken({ id: faker.datatype.uuid() })
-    const tokenPartner = await jwtProviderPartner.generateToken({ id: faker.datatype.uuid() })
+    const token = jwtProvider.generateToken({ id: faker.datatype.uuid() })
 
-    expect(tokenUser).toBeTruthy()
-    expect(tokenPartner).toBeTruthy()
+    expect(token).toBeTruthy()
   })
 
   it('should be valid jwt', async () => {
-    const token = await jwtProviderUser.generateToken({ id: faker.datatype.uuid() })
+    const token = jwtProvider.generateToken({ id: faker.datatype.uuid() })
 
-    const isValidJwt = await jwtProviderUser.verifyToken(token)
+    const isValidJwt = await jwtProvider.verifyToken(token)
 
     expect(token).toBeTruthy()
     expect(isValidJwt).toBeTruthy()
   })
 
   it('should if jwt can be decoded', async () => {
-    const token = await jwtProviderUser.generateToken({ id: faker.datatype.uuid() })
-    const decoded = await jwtProviderUser.decodeToken(token)
+    const token = jwtProvider.generateToken({ id: faker.datatype.uuid() })
+    const decoded = await jwtProvider.decodeToken(token)
 
     expect(decoded).toHaveProperty('id')
+  })
+
+  it('should if jwt has expired', async () => {
+    try {
+      const token = jwtProvider.generateToken({ id: faker.datatype.uuid() }, {
+        expiresIn: '-1h'
+      })
+
+      await jwtProvider.verifyToken(token)
+
+      throw Error('Error.')
+    } catch (error) {
+      expect(error).toBeInstanceOf(TokenExpiredError)
+    }
   })
 })

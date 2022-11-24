@@ -1,5 +1,7 @@
+import { SignOptions } from 'jsonwebtoken'
+
 export interface IJwtProvider {
-  generateToken: (data: any) => any
-  decodeToken: (token: string) => any
-  verifyToken: (token: string) => Promise<boolean>
+  generateToken: (data: any, options?: SignOptions) => string
+  decodeToken: (token: string) => Promise<any>
+  verifyToken: (token: string, options?: SignOptions) => Promise<boolean>
 }
