@@ -12,7 +12,7 @@
     "start": "npx prisma generate --schema src/infra/database/schema.prisma && node dist/server.js",
     "db:push": "prisma db push --schema src/infra/database/schema.prisma",
     "db:pull": "prisma db pull --schema src/infra/database/schema.prisma",
-    "test:unit": "vitest"
+    "test": "vitest"
   },
   "dependencies": {
     "@prisma/client": "^3.12.0",
