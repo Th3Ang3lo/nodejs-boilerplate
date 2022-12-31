@@ -1,3 +1,4 @@
+import { describe, beforeAll, it, expect } from 'vitest'
 import { faker } from '@faker-js/faker'
 
 import { IHashProvider } from '@/domain/contracts/providers/bcrypt-hash-provider'

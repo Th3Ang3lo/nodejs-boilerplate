@@ -1,5 +1,5 @@
+import { describe, beforeAll, it, expect } from 'vitest'
 import { faker } from '@faker-js/faker'
-import { TokenExpiredError } from 'jsonwebtoken'
 
 import { JwtProvider } from '@/infra/providers/jwt-provider'
 
@@ -9,8 +9,7 @@ describe('Jwt provider', () => {
   let jwtProvider: IJwtProvider
 
   beforeAll(() => {
-    process.env.JWT_SECRET_USERS = faker.word.noun()
-    process.env.JWT_SECRET_PARTNERS = faker.word.noun()
+    process.env.JWT_SECRET = faker.word.noun()
     process.env.JWT_EXPIRES = '1d'
 
     jwtProvider = new JwtProvider()
@@ -45,10 +44,8 @@ describe('Jwt provider', () => {
       })
 
       await jwtProvider.verifyToken(token)
-
-      throw Error('Error.')
     } catch (error) {
-      expect(error).toBeInstanceOf(TokenExpiredError)
+      expect(error).toHaveProperty('expiredAt')
     }
   })
 })
