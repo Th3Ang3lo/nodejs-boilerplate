@@ -8,7 +8,6 @@ module.exports = {
       root: ['.'],
       alias: {
         '@prisma/client': './node_modules/@prisma/client/index.js',
-        '^@sentry/(.+)': './node_modules/@sentry/\\1',
         '^@(.+)': './src/\\1'
       }
     }],
