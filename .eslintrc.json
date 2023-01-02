@@ -10,6 +10,7 @@
       "@typescript-eslint/no-throw-literal": "off",
       "@typescript-eslint/no-dupe-class-members": "off",
       "@typescript-eslint/adjacent-overload-signatures": "off",
-      "@typescript-eslint/naming-convention": "off"
+      "@typescript-eslint/naming-convention": "off",
+      "@typescript-eslint/prefer-nullish-coalescing": "off"
     }
   }
