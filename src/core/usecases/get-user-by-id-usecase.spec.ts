@@ -22,7 +22,7 @@ describe(`${name} Tests`, () => {
       findById: vi.fn()
     } as unknown as IUsersRepository
 
-    user = new User({
+    user = User.create({
       id: randomUUID(),
       name: faker.name.fullName(),
       email: faker.internet.email(),
@@ -30,9 +30,7 @@ describe(`${name} Tests`, () => {
       phone: faker.phone.number(),
       picture: faker.internet.avatar(),
       createdAt: new Date(),
-      updatedAt: new Date(),
-      passwordResetToken: randomUUID(),
-      passwordResetTokenExpiresAt: new Date()
+      updatedAt: new Date()
     })
 
     getUserByIdUseCase = new GetUserByIdUseCase(usersRepository)
