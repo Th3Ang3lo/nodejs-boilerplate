@@ -5,14 +5,16 @@ import aws, { S3 } from 'aws-sdk'
 
 import { IStorageProvider } from '@/domain/contracts/providers'
 
+import { Env } from '@/shared/env'
+
 export class S3StorageProvider implements IStorageProvider {
   private readonly s3: S3
 
   constructor () {
     this.s3 = new aws.S3({
-      region: process.env.AWS_S3_REGION,
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+      region: Env.getAWSS3Region(),
+      accessKeyId: Env.getAWSAccessKeyID(),
+      secretAccessKey: Env.getAWSSecretAccessKey()
     })
   }
 
@@ -22,7 +24,7 @@ export class S3StorageProvider implements IStorageProvider {
 
     try {
       await this.s3.putObject({
-        Bucket: process.env.AWS_S3_BUCKET,
+        Bucket: Env.getAWSS3Bucket(),
         Key: fileToSave,
         ACL: acl,
         Body: file.buffer,
@@ -32,6 +34,6 @@ export class S3StorageProvider implements IStorageProvider {
       fileToSave = 'users/default.png'
     }
 
-    return `${process.env.AWS_STORAGE_URL}/${fileToSave}`
+    return `${Env.getStorageUrl()}/${fileToSave}`
   }
 }

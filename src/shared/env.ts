@@ -35,7 +35,11 @@ export class Env {
     return process.env.AWS_SECRET_ACCESS_KEY
   }
 
-  public static getAWS3Bucket () {
+  public static getAWSS3Region () {
+    return process.env.AWS_S3_REGION
+  }
+
+  public static getAWSS3Bucket () {
     return process.env.AWS_S3_BUCKET
   }
 
