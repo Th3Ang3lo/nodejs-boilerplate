@@ -5,17 +5,13 @@ import { JwtProvider } from '@/infra/providers/jwt-provider'
 import { UnauthorizedException } from '@/shared/exceptions'
 import { HttpAuth, HttpHeaders } from '@/domain/contracts/controller'
 
-interface ITokenPayload {
-  iat: number
-  exp: number
-  id: string
-}
+import { Env } from '@/shared/env'
 
 export const authenticated = async (request: HttpHeaders & HttpAuth, response: Response, next: NextFunction): Promise<void> => {
   const authHeader = request.headers.authorization
 
   if (authHeader) {
-    const jwtProvider = new JwtProvider()
+    const jwtProvider = new JwtProvider(Env.getJwtSecret())
 
     const [Bearer, token, ...rest] = authHeader.split(' ')
 
@@ -24,14 +20,13 @@ export const authenticated = async (request: HttpHeaders & HttpAuth, response: R
         throw new Error()
       }
 
-      const verify = await jwtProvider.verifyToken(token)
+      const verify = await jwtProvider.isValidToken(token)
 
       if (verify) {
         const decoded = await jwtProvider.decodeToken(token)
-        const { id } = decoded as ITokenPayload
 
         request.auth = {
-          id
+          id: decoded.id
         }
 
         return next()

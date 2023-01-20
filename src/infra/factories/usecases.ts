@@ -1,5 +1,9 @@
-import { TestUseCase } from '@/core/usecases/test-usecase'
+import { UsersRepository } from '@/infra/database/repositories/users-repository'
 
-export const testUseCase = (): TestUseCase => {
-  return new TestUseCase()
+import { GetUserByIdUseCase } from '@/core/usecases/get-user-by-id-usecase'
+
+export const getUserByIdUseCase = (): GetUserByIdUseCase => {
+  return new GetUserByIdUseCase(
+    new UsersRepository()
+  )
 }

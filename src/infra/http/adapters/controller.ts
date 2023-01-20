@@ -2,6 +2,7 @@ import { RequestHandler, Response } from 'express'
 
 import { Controller } from '@/domain/contracts/controller'
 import { InternalServerErrorException } from '@/shared/exceptions'
+import { Env } from '@/shared/env'
 
 export type Adapter = (controller: Controller) => RequestHandler
 
@@ -26,7 +27,7 @@ export const controllerAdapter: Adapter = controller => async (request: any, res
 
     throw new InternalServerErrorException()
   } catch (error) {
-    if (process.env.NODE_ENV === 'dev') {
+    if (!Env.isProduction()) {
       console.log(error)
     }
 

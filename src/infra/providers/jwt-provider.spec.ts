@@ -9,10 +9,7 @@ describe('Jwt provider', () => {
   let jwtProvider: IJwtProvider
 
   beforeAll(() => {
-    process.env.JWT_SECRET = faker.word.noun()
-    process.env.JWT_EXPIRES = '1d'
-
-    jwtProvider = new JwtProvider()
+    jwtProvider = new JwtProvider(faker.word.noun())
   })
 
   it('should generate jwt', async () => {
@@ -24,7 +21,7 @@ describe('Jwt provider', () => {
   it('should be valid jwt', async () => {
     const token = jwtProvider.generateToken({ id: faker.datatype.uuid() })
 
-    const isValidJwt = await jwtProvider.verifyToken(token)
+    const isValidJwt = await jwtProvider.isValidToken(token)
 
     expect(token).toBeTruthy()
     expect(isValidJwt).toBeTruthy()
@@ -38,14 +35,12 @@ describe('Jwt provider', () => {
   })
 
   it('should if jwt has expired', async () => {
-    try {
-      const token = jwtProvider.generateToken({ id: faker.datatype.uuid() }, {
-        expiresIn: '-1h'
-      })
+    const token = jwtProvider.generateToken({ id: faker.datatype.uuid() }, {
+      expiresIn: '-1h'
+    })
 
-      await jwtProvider.verifyToken(token)
-    } catch (error) {
-      expect(error).toHaveProperty('expiredAt')
-    }
+    const isValidToken = await jwtProvider.isValidToken(token)
+
+    expect(isValidToken).toBeFalsy()
   })
 })

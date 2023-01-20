@@ -1,22 +1,28 @@
-import jwt, { SignOptions } from 'jsonwebtoken'
+import jwt, { SignOptions, VerifyOptions, DecodeOptions } from 'jsonwebtoken'
 
 import { IJwtProvider } from '@/domain/contracts/providers/jwt-provider'
 
 export class JwtProvider implements IJwtProvider {
-  public readonly secret = process.env.JWT_SECRET
+  constructor (private readonly secret: string) {}
 
   public generateToken (data: any, options?: SignOptions): string {
     return jwt.sign(data, this.secret, {
-      expiresIn: process.env.JWT_EXPIRES,
+      expiresIn: '7d',
       ...options
     })
   }
 
-  public async decodeToken (token: string): Promise<any> {
-    return jwt.decode(token)
+  public async decodeToken (token: string, options?: DecodeOptions): Promise<any> {
+    return jwt.decode(token, options)
   }
 
-  async verifyToken (token: string, options?: SignOptions): Promise<boolean> {
-    return !!jwt.verify(token, this.secret, options)
+  async isValidToken (token: string, options?: VerifyOptions): Promise<boolean> {
+    try {
+      jwt.verify(token, this.secret, options)
+
+      return true
+    } catch (error) {
+      return false
+    }
   }
 }

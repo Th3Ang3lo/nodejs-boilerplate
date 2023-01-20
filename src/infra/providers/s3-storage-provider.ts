@@ -3,9 +3,9 @@ import path from 'path'
 
 import aws, { S3 } from 'aws-sdk'
 
-import { IS3StorageProvider } from '@/domain/contracts/providers'
+import { IStorageProvider } from '@/domain/contracts/providers'
 
-export class S3StorageProvider implements IS3StorageProvider {
+export class S3StorageProvider implements IStorageProvider {
   private readonly s3: S3
 
   constructor () {

@@ -4,6 +4,7 @@ import * as dot from 'dot-object'
 import { Request, Response, NextFunction } from 'express'
 
 import { BadRequestException } from '@/shared/exceptions'
+import { Env } from '@/shared/env'
 
 export enum ValidationEnum {
   BODY = 'body',
@@ -29,7 +30,7 @@ export const expressValidationAdapter = (validation: any, type = ValidationEnum.
 
       next()
     } catch (error) {
-      if (process.env.NODE_ENV === 'dev') {
+      if (!Env.isProduction()) {
         console.log(error)
       }
 

@@ -12,3 +12,11 @@ export const auth = {
     .max(255, 'A senha deve ter no máximo 255 caracteres.')
     .required('Senha obrigatória.')
 }
+
+export const email = {
+  email: yup
+    .string()
+    .email('E-mail inválido.')
+    .max(255, 'O e-mail deve ter no máximo 255 caracteres.')
+    .required('E-mail obrigatório.')
+}

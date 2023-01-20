@@ -1,5 +1,5 @@
 export interface IContextData {
-  [context: string]: string
+  [context: string]: string | number
 }
 
 export interface IMailProvider {

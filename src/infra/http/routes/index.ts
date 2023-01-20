@@ -1,7 +1,7 @@
 import { Router } from 'express'
 
-import { testController } from '@/infra/factories/controllers'
+import { UserRoutes } from '@/modules/users/infra/http/routes/users.routes'
 
 export const Routes = Router()
 
-Routes.get('/test', testController())
+Routes.use('/users', UserRoutes)

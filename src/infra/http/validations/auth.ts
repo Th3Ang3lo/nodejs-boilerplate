@@ -1,7 +1,9 @@
 import { expressValidationAdapter } from '@/infra/http/adapters/validation'
 
 import {
-  auth
+  auth,
+  email
 } from '@/infra/validations/auth'
 
 export const authValidator = expressValidationAdapter(auth)
+export const emailValidator = expressValidationAdapter(email)

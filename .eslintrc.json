@@ -11,6 +11,8 @@
       "@typescript-eslint/no-dupe-class-members": "off",
       "@typescript-eslint/adjacent-overload-signatures": "off",
       "@typescript-eslint/naming-convention": "off",
-      "@typescript-eslint/prefer-nullish-coalescing": "off"
+      "@typescript-eslint/prefer-nullish-coalescing": "off",
+      "@typescript-eslint/explicit-function-return-type": 0,
+      "@typescript-eslint/no-extraneous-class": "off"
     }
   }
