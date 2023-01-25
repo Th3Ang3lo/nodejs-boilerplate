@@ -8,6 +8,6 @@ module.exports = defineConfig({
     alias: {
       '@': path.resolve(__dirname, './src')
     },
-    watch: true
+    watch: false
   }
 })
